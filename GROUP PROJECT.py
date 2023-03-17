@@ -3,7 +3,7 @@
 
 # @author: andre
 
-# PARALLEL ARRAYS ARE TWO ARRAYS WHICH HAVE CORRESPONDING DATA AT THE SAME INDEX VALUES
+@author: andre
 
 import csv
 
