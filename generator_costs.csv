@@ -1,0 +1,11 @@
+Generator Type,Cost (£/MWh)
+Wind Onshore,10
+Wind Offshore,10
+Natural Gas,60
+Diesel/Gas Oil,120
+Pumped hydro,40
+Biomass,55
+Hydro Natural Flow,36
+Nuclear AGR,30
+Coal,150
+Nuclear PWR,30

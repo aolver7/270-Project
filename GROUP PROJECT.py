@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Mar 12 17:55:49 2023
+# Created on Sun Mar 12 17:55:49 2023
 
-@author: andre
+# @author: andre
 
-PARALLEL ARRAYS ARE TWO ARRAYS WHICH HAVE CORRESPONDING DATA AT THE SAME INDEX VALUES
-"""
+# PARALLEL ARRAYS ARE TWO ARRAYS WHICH HAVE CORRESPONDING DATA AT THE SAME INDEX VALUES
+
 import csv
 
-'''
-LETS USER INPUT YEAR AND SCENARIO TYPE IF NECESSARY
-OUTPUTS SECNARIO FILE NAME AND SCENARIO YEAR
-'''
+
+# LETS USER INPUT YEAR AND SCENARIO TYPE IF NECESSARY
+# OUTPUTS SECNARIO FILE NAME AND SCENARIO YEAR
+
 def scenariochoice ():
     scenarioyear=str(input("ENTER SCENARIO YEAR "))
     if scenarioyear == '2025' :
@@ -22,11 +21,9 @@ def scenariochoice ():
     print(scenariofile)
     return scenariofile, scenarioyear
 
-'''
-TAKES IN SCENARIO YEAR
-LETS USER INPUT START AND END DATES AND TIMES (HORIZON) THEN OUPUTS THEM IN THE SAME FORM AS THEY APPEAR IN THE SCENARIOFILE
+# TAKES IN SCENARIO YEAR
+# LETS USER INPUT START AND END DATES AND TIMES (HORIZON) THEN OUPUTS THEM IN THE SAME FORM AS THEY APPEAR IN THE SCENARIOFILE
 
-'''
 def horizoninputs (scenarioyear):
     startday=str(input("ENTER START DAY "))
     startmonth=str(input("ENTER START MONTH "))
@@ -39,10 +36,9 @@ def horizoninputs (scenarioyear):
     print(horizonstart, horizonend)
     return horizonstart, horizonend
 
-'''
-TAKES IN CERTAIN WIND LEVELS
-PASSES OUT 3 PARALLEL LIST OF SUPPLY TYPE, SUPPLY EFFICIENCY AND SUPPLY CAPACITY ALL ORDERED BY EFFICIENCY INCREASING
-'''
+# TAKES IN CERTAIN WIND LEVELS
+# PASSES OUT 3 PARALLEL LIST OF SUPPLY TYPE, SUPPLY EFFICIENCY AND SUPPLY CAPACITY ALL ORDERED BY EFFICIENCY INCREASING
+
 def supplytotal (offwindiness, onwindiness):
     efficiencies=[]
     supplies=[]
@@ -80,9 +76,8 @@ def supplytotal (offwindiness, onwindiness):
         
     return efficiencies, supplies, capacities
 
-'''
-TAKES IN START AND END TIMES AND OUTPUTS A LIST OF THE DEMAND FOR EACH HOUR WITHIN THIS PERIOD AND PARALLEL LIST OF THE HOURS
-'''
+# TAKES IN START AND END TIMES AND OUTPUTS A LIST OF THE DEMAND FOR EACH HOUR WITHIN THIS PERIOD AND PARALLEL LIST OF THE HOURS
+
 def calcdemand (scenariofile, horizonstart, horizonend):     
     demand=[]
     hours=[]
@@ -99,14 +94,13 @@ def calcdemand (scenariofile, horizonstart, horizonend):
                 hours.append(row['Time'])
     return demand, hours
 
-'''
-TAKES IN THE LIST OF CAPACITIES OF EACH SUPPLY TYPE, THE LIST OF SUPPLY TYPES, THE DEMAND AT EACH HOUR, THE HOURS, AND THE EFFICIENCIES
-COMPARES SUPPLY AND DEMAND FOR EACH HOUR OF THE HORIZON
-RECORDS COST FOR EACH HOUR THEN CALCULATES AND AVERAGE AND OUTPUTS IT
-RECORDS UTILISATION PERCENTAGE OF EACH SUPPLY TYPE FOR EACH HOUR AND THEN CALCULATES AN AVERAGE UTILISATION PERCENTAGE, THEN OUTPUTS THIS AS A LIST OF PERCENTAGE FOR EACH SUPPLY TYPE
-RECORDS THE MARGINAL SUPPLY TYPE FOR EACH HOUR AND MAKES A LIST OF EVERY MARGINAL SUPPLY TYPE IN THE HORIZON
-MAKES A LIST OF EVERY HOUR WHERE SUPPLY COULD NOT BE MET(DISCONNECT HOURS)
-'''
+# TAKES IN THE LIST OF CAPACITIES OF EACH SUPPLY TYPE, THE LIST OF SUPPLY TYPES, THE DEMAND AT EACH HOUR, THE HOURS, AND THE EFFICIENCIES
+# COMPARES SUPPLY AND DEMAND FOR EACH HOUR OF THE HORIZON
+# RECORDS COST FOR EACH HOUR THEN CALCULATES AND AVERAGE AND OUTPUTS IT
+# RECORDS UTILISATION PERCENTAGE OF EACH SUPPLY TYPE FOR EACH HOUR AND THEN CALCULATES AN AVERAGE UTILISATION PERCENTAGE, THEN OUTPUTS THIS AS A LIST OF PERCENTAGE FOR EACH SUPPLY TYPE
+# RECORDS THE MARGINAL SUPPLY TYPE FOR EACH HOUR AND MAKES A LIST OF EVERY MARGINAL SUPPLY TYPE IN THE HORIZON
+# MAKES A LIST OF EVERY HOUR WHERE SUPPLY COULD NOT BE MET(DISCONNECT HOURS)
+
 def compare(capacities, supplies, demand, hours, efficiencies):
     utilisation=[]
     for index in range(len(supplies)):
@@ -153,29 +147,24 @@ def compare(capacities, supplies, demand, hours, efficiencies):
     return averagecost, disconnecthours, marginals, utilisation
 
 
-'''
-INITIALISES CSV FILE
-'''
+
+# INITIALISES CSV FILE
+
 def clearcsv():
     with open('marginals.csv', 'w') as f:
-        f.write("MARGINAL GENERATION TYPES")
+        f.write("MARGINAL GENERATION TYPES\n")
     return
 
-'''
-WRITES MARGINAL SUPPLY TYPES TO CSV FILE
-'''
+
+# WRITES MARGINAL SUPPLY TYPES TO CSV FILE
+
 def writemarginals(marginals,hours, offwindiness, onwindiness):
     with open('marginals.csv', 'a', newline='') as f:
-        f.write("Time, Marginal supply, Offshore wind, Onshore wind\n")
+        writer = csv.writer(f)
+        writer.writerow(["Time", "Marginal supply", "Offshore wind", "Onshore wind"])
+        
         for index in range(len(marginals)):
-            f.write(hours[index])
-            f.write(', ')
-            f.write(marginals[index])
-            f.write(', ')
-            f.write(str(offwindiness))
-            f.write(', ')
-            f.write(str(onwindiness))
-            f.write('\n')
+            writer.writerow([hours[index], marginals[index], str(offwindiness), str(onwindiness)])
     return
 
 offwindlevels=[0,25,55,85]
@@ -186,9 +175,9 @@ horizonstart, horizonend=horizoninputs(scenarioyear)
 demand, hours=calcdemand(scenariofile, horizonstart, horizonend)
 clearcsv()
 
-'''
-CALCULATES OUTCOMES FOR DIFFERENT LEVELS OF WIND STRENGTH
-'''
+
+# CALCULATES OUTCOMES FOR DIFFERENT LEVELS OF WIND STRENGTH
+
 for index in range (len(offwindlevels)):
     efficiencies, supplies, capacities=supplytotal(offwindlevels[index], onwindlevels[index])
     averagecost, disconnecthours, marginals, utilisation=compare(capacities, supplies, demand, hours, efficiencies)
@@ -200,4 +189,3 @@ for index in range (len(offwindlevels)):
     print(supplies)
     print(utilisation)
     writemarginals(marginals, hours, offwindlevels[index], onwindlevels[index])
-
