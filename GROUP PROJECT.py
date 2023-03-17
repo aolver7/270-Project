@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 # Created on Sun Mar 12 17:55:49 2023
 
-# @author: andre
-
-@author: andre
+# @author: Andrew, Ruaridh, Glen
 
 import csv
 
