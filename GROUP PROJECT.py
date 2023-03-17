@@ -2,7 +2,7 @@
 """
 Created on Sun Mar 12 17:55:49 2023
 
-@author: andre
+@authors: Andrew, Ruaridh, Glen
 
 PARALLEL ARRAYS ARE TWO ARRAYS WHICH HAVE CORRESPONDING DATA AT THE SAME INDEX VALUES
 """
