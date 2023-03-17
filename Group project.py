@@ -186,4 +186,5 @@ for index in range (len(offwindlevels)):
     print("GRID DISCONNECTION HOURS",disconnecthours)
     print(supplies)
     print(utilisation)
-    writemarginals(marginals, hours, offwindlevels[index], onwindlevels[index])
+    writemarginals(marginals, hours, offwindlevels[index], onwindlevels[index])#
+    #test
