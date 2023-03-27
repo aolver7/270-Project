@@ -138,7 +138,7 @@ def compare(capacities, supplies, demand, hours, efficiencies):
         
     for index in range(len(supplies)):
         utilisation[index] = utilisation[index] / len(demand)          
-    averagecost = runningcost / (len(demand) - len(disconnecthours))          #Does disconnected hours count towards utilisation and cost???
+    averagecost = runningcost / len(demand)          #Does disconnected hours count towards utilisation and cost???
     return averagecost, disconnecthours, marginals, utilisation
 
 
