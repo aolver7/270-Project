@@ -141,15 +141,12 @@ def compare(capacities, supplies, demand, hours, efficiencies):
     averagecost = runningcost / len(demand)          #Does disconnected hours count towards utilisation and cost???
     return averagecost, disconnecthours, marginals, utilisation
 
-
-
 # INITIALISES CSV FILE
 
 def clearcsv():
     with open('marginals.csv', 'w') as f:
         f.write("MARGINAL GENERATION TYPES\n")
     return
-
 
 # WRITES MARGINAL SUPPLY TYPES TO CSV FILE
 
@@ -169,7 +166,6 @@ scenariofile, scenarioyear = scenariochoice()
 horizonstart, horizonend = horizoninputs(scenarioyear)
 demand, hours = calcdemand(scenariofile, horizonstart, horizonend)
 clearcsv()
-
 
 # CALCULATES OUTCOMES FOR DIFFERENT LEVELS OF WIND STRENGTH
 
