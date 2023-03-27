@@ -122,7 +122,7 @@ def compare(capacities, supplies, demand, hours, efficiencies):
                 print("OVERLOAD")
                 for secondindex in range(len(supplies)):
                     hourlyutil[secondindex] = 0                       #Does disconnected hours count towards utilisation and cost???
-                hourlycost = 0
+                hourlycost = 500
             elif remaining > capacities[stype] :
                 remaining = remaining-capacities[stype]
                 hourlyutil[stype] = 100
